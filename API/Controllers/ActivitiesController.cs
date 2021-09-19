@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Application.Activities;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]
     public class ActivitiesController : BaseApiController
     {
         private const string V = "{id}";
@@ -28,14 +27,14 @@ namespace API.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> CreateActivity(Activity activity)
+        public async Task <IActionResult> CreateActivity(Activity activity)
         {
             return HandleResult(await Mediator.Send(new Create.Command { Activity = activity }));
         }
 
         [HttpPut("{id}")]
 
-        public async Task<IActionResult> EditActivity(Guid id, Activity activity)
+        public async Task <IActionResult> EditActivity(Guid id, Activity activity)
         {
             activity.Id = id;
             return HandleResult(await Mediator.Send(new Edit.Command { Activity = activity }));
